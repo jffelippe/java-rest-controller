@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE-Edge" />
+        <meta name="vieport" content="width=device-width, initial-scale=1"/>
+
+        <title>Users </title>
+        <!--<base href="/home/opc/proyecto2/src/main/resources/static/" />-->
+
+        <link rel="stylesheet" type="text/css" href="webjars/bootstrap/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+        <script type="text/javascript" src="webjars/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/User.js"></script>
+
+</head>
+<body>
+<div class="container login">
+
+</div>
+
+<div class="container header">
+    <div class="row">
+        <div class="col">
+            <div class="logo"> <img src="images/logo.png"> </div>
+            <h2 class="subtitle">Java-Rest-Controller</h2>
+        </div>
+    </div>
+</div>
+
+<div class="container menu">
+    <div class="row">
+        <div class="col">
+            <nav>
+                <a href="index.html" >     <button class="button"> Home        </button></a> &nbsp; &nbsp;
+                <a href="User.html">      <button class="button active"> Users </button></a> &nbsp; &nbsp;
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="container content">
+    <div class="row title">
+        <div class="col">
+           <h2>User</h2>
+        </div>
+    </div>
+
+    <div class="row newElement" >
+        <div class="col">
+            <button id="btnUser" class="btnNew" onclick="openModal(-1)">Add User</button>
+        </div>
+    </div>
+
+    <div class="row data_grip">
+        <div class="col">
+            <table id="tblUser" class="tblData">
+                <thead>
+                <td>
+                <th>Name</th>
+                <th>LastName</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Update</th>
+                <th>Delete</th>
+                </td>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="modalUser" class="modal">
+    <div class="modal_content">
+        <button id="btnCancel" class="buttonCerrar" onclick="closeModal();">Close  </button>
+
+        <h2>Add an User</h2><br />
+        <input type="hidden" id="txtId" value="">
+        <label>Name:</label>     <input type="text" id="user_name" value=""><br />
+        <label>Lastname:</label>     <input type="text" id="user_lastname" value=""><br />
+        <label>Email:</label> <input type="text" id="user_email" value=""><br />
+        <label>Phone:</label> <input type="number" id="user_phone" value=""><br />
+
+        <button id="btnAdd"    class="button" onclick="insertUser();">Add</button>
+        <button id="btnUpdate" class="button" onclick="updateUser();">Update</button>
+        <button id="btnCancel" class="button" onclick="closeModal();">Cancel</button>
+    </div>
+</div>
+
+</body>
+</html>

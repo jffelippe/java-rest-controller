@@ -1,0 +1,41 @@
+services:
+  backend:
+    build: .
+    environment:
+      JDBC_URL: jdbc:mysql://db:3306/java_rest_controller
+      JDBC_USERNAME: root
+      JDBC_PASSWORD: usuario
+    ports:
+      - 8080:8080
+    networks:
+      - private
+    depends_on:
+      - db
+    links: 
+      - db
+    healthcheck:
+      test: ["curl", "--location", "'http://localhost:8080/actuator/health'"]
+      interval: 5s
+      timeout: 30s
+      retries: 5
+      start_period: 15s
+  
+  db:
+    image: mariadb:10.6.4-focal
+    restart: always
+    environment:
+      - MYSQL_DATABASE=java_rest_controller
+      - MYSQL_ROOT_PASSWORD=usuario
+      - MYSQL_PASSWORD=usuario
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - private
+    ports:
+      - "3307:3306"
+
+volumes:
+  db-data:
+
+networks:
+  private: {}
