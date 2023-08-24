@@ -44,7 +44,7 @@ jobs:
         with:
           name: jar-file
       - name: Listing Files
-        run: ls
+        run: mkdir target; mv java-rest-controller-0.0.1-SNAPSHOT.jar target; ls -Rl
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
