@@ -22,8 +22,11 @@ jobs:
         uses: actions/checkout@v3
       - name: Creating artifact
         run: mvn package -DskipTests
-      - name: Listing Files
-        run: ls -l target
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v3
+        with:
+          name: jar-file
+          path: target/java-rest-controller-0.0.1-SNAPSHOT.jar
 
   Docker:
     name: Create and push Docker Image
@@ -36,8 +39,10 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Listing Files
-        run: ls -Rl target
+      - name: 'Download Artifact'
+        uses: actions/download-artifact@v3
+        with:
+          name: jar-file
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
