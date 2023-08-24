@@ -1,29 +1,12 @@
-name: GitHub Actions Demo
+name: GitHub Actions for java-rest-controller
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
-    name: Explore GitHub Actions
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
-
-  Install-Dependencies:
-    name: Install dependencies
+  Tests:
+    name: Tests
     runs-on: ubuntu-20.04
-    needs: Explore-GitHub-Actions
     steps:
-      - run: echo "Downloading Dependencies"
+      - run: echo "Running tests"
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Listing Files
@@ -32,33 +15,27 @@ jobs:
   Create-Artifact:
     name: Create Artifact
     runs-on: ubuntu-20.04
-    needs: Install-Dependencies
+    needs: Tests
     steps:
       - run: echo "Creating artifact"
       - name: Check out repository code
         uses: actions/checkout@v3
-      - name: Listing Files
-        run: ls
+      - name: Creating artifact
+        run: mvn package -DskipTests
 
-  Create-Docker-Image:
-    name: Create Docker Image
+  Docker:
+    name: Create and push Docker Image
     runs-on: ubuntu-20.04
     needs: Create-Artifact
     steps:
       - run: echo "Creating Docker Image"
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - name: Listing Files
-        run: ls
-
-  Push-DockerHub:
-    name: Push to Docker Hub
-    runs-on: ubuntu-20.04
-    needs: Create-Docker-Image
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - run: echo "Push to DockerHub"
-      - name: Listing Files
-        run: ls
-      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          tags: jffelippe/java-rest-controller:latest
