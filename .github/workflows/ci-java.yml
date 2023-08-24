@@ -43,6 +43,8 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: jar-file
+      - name: Listing Files
+        run: ls
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
